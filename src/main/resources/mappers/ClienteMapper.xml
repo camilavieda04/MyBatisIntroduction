@@ -5,6 +5,58 @@
   
 <mapper namespace="edu.eci.cvds.sampleprj.dao.mybatis.mappers.ClienteMapper">
 
+<select parameterType="map" id="consultarClientes" resultMap="ClienteResult">
+	select
+    
+    c.nombre as Cliente_Nombre,
+    c.documento as Cliente_Documento,
+    c.telefono as Cliente_Telefono,
+    c.direccion as Cliente_Direccion,
+    c.email as Cliente_email,
+    c.vetado as Cliente_vetado,
+    
+    ir.id as ItemRentado_id ,
+    ir.fechainiciorenta as FechaInicioRenta_Ir,
+    ir.fechafinrenta as FechaFinRenta_Ir,
+    
+    i.id as item_id,
+    i.nombre as item_nombre,
+    i.descripcion as item_descripcion,
+    i.fechalanzamiento as item_fechaLanzamiento,
+    i.tarifaxdia as item_tarifaxdia,
+    i.formatorenta as item_formatoRenta,
+    i.genero as item_genero,        
+    
+    ti.id as TipoItem_id ,
+    ti.descripcion as TipoItem_Descripcion 
+    
+	FROM VI_CLIENTES as c 
+    left join VI_ITEMRENTADO as ir on c.documento=ir.CLIENTES_documento 
+    left join VI_ITEMS as i on ir.ITEMS_id=i.id 
+    left join VI_TIPOITEM as ti on i.TIPOITEM_id=ti.id 
+</select>
 
+<select parameterType="Cliente" id="consultarCliente" resultMap="ClienteResult">
+	SELECT * FROM VI_CLIENTES WHERE documento=#{idcli}
+</select>
+
+
+<insert parameterType="Cliente" id="agregarItemRentadoACliente">
+	INSERT INTO VI_ITEMRENTADO (CLIENTES_documento, ITEMS_id, fechainiciorenta, fechafinrenta)
+		VALUES (#{idir},#{idit},#{fiir},#{ffir})
+</insert>
+
+
+<resultMap type='Cliente' id='ClienteResult' >
+	<id property='documento' column='documento'/>
+	<result property='nombre' column='nombre'/>
+	<result property='telefono' column='telefono'/>
+	<result property='direccion' column='direccion'/>
+	<result property='email' column='email'/>
+	<result property='vetado' column='vetado'/>
+	<collection property='rentados' ofType='ItemRentado' resultMap="ClienteResult" columnPrefix="item_"></collection>
+
+
+</resultMap>
           	
 </mapper>

@@ -21,10 +21,17 @@ package edu.eci.cvds.samples.services.client;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+
+import edu.eci.cvds.sampleprj.dao.mybatis.mappers.ClienteMapper;
+import edu.eci.cvds.sampleprj.dao.mybatis.mappers.ItemMapper;
+import edu.eci.cvds.samples.entities.Item;
+import edu.eci.cvds.samples.entities.TipoItem;
 
 /**
  *
@@ -64,11 +71,15 @@ public class MyBatisExample {
 
         
         //Crear el mapper y usarlo: 
-        //ClienteMapper cm=sqlss.getMapper(ClienteMapper.class)
-        //cm...
+        ClienteMapper cm=sqlss.getMapper(ClienteMapper.class);
+        ItemMapper im=sqlss.getMapper(ItemMapper.class);
         
         
+        //Item temp=new Item(new TipoItem(123532,"algun tipo"),9812354,"algun item","item de algo", new SimpleDateFormat("dd/MM/yyyy").parse("22/03/2019"),20,"asd","accion");
+        //System.out.println(cm.consultarClientes());
         
+        
+        System.out.println(im.consultarItem(9812354));
         sqlss.commit();
         
         
@@ -78,5 +89,5 @@ public class MyBatisExample {
         
     }
 
-
 }
+

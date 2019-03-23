@@ -5,6 +5,40 @@
   
 <mapper namespace="edu.eci.cvds.sampleprj.dao.mybatis.mappers.ItemMapper">
 
+<select parameterType="map" id="consultarItem" resultMap="ItemResult">
+	SELECT * FROM VI_ITEMS
+		WHERE id=#{id}
+</select>
+
+<select parameterType="map" id="consultarItems" resultMap="ItemResult">
+	SELECT * FROM VI_ITEMS
+</select>
+
+<insert parameterType="Item" id="insertarItem">
+	INSERT INTO VI_ITEMS (id,nombre,descripcion,fechadeLanzamiento,tarifaxDia,formatoRenta,genero,TIPOITEM_id)
+		VALUES (#{item.id},#{item.nombre},#{item.descripcion},#{item.fechadeLanzamiento},#{item.tarifaxDia},#{item.formatoRenta},#{item.genero},#{item.tipo.id})
+</insert>
+
+<delete  parameterType="Item" id="deleteItem">
+	DELETE FROM VI_ITEMS
+		WHERE id=#{id}
+</delete>
+
+<resultMap type='Item' id='ItemResult'>
+<id property='id' column='id'/>
+<result property='nombre' column='nombre'/>
+<result property='descripcion' column='descripcion'/>
+<result property='fechadeLanzamiento' column='fechadeLanzamiento'/>
+<result property='tarifaxDia' column='tarifaxDia'/>
+<result property='formatoRenta' column='formatoRenta'/>
+<result property ='genero' column='genero'/>
+<association property='tipo' javaType='TipoItem' columnPrefix="TipoItem_"/>
+</resultMap>
+
+
+
+
+
 
     
     
